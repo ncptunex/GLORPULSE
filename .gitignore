@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Local and secret files
+*.local
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Impeccable design skill: downloaded program file (each person gets their own copy)
+.kiro/skills/impeccable/scripts/bin/
