@@ -39,29 +39,29 @@ export type IsoTimestamp = string;
 
 /** Indicators that have ONE number. */
 export type SingleValueIndicatorId =
-  | 'heart-rate'
-  | 'body-temperature'
-  | 'blood-glucose' // optional per astronaut, see CrewProfile.trackedIndicators
-  | 'sleep'
-  | 'mood';
+  | "heart-rate"
+  | "body-temperature"
+  | "blood-glucose" // optional per astronaut, see CrewProfile.trackedIndicators
+  | "sleep"
+  | "mood";
 
 /** All six indicators. Blood pressure is the only one with TWO numbers. */
-export type IndicatorId = SingleValueIndicatorId | 'blood-pressure';
+export type IndicatorId = SingleValueIndicatorId | "blood-pressure";
 
 /**
  * One measured number inside an indicator.
  * Single-value indicators use 'value'. Blood pressure uses 'systolic' and 'diastolic'.
  * Baselines, positions, runs and reference status are worked out separately for each measure.
  */
-export type MeasureKey = 'value' | 'systolic' | 'diastolic';
+export type MeasureKey = "value" | "systolic" | "diastolic";
 
 /** The five NASA hazards of human spaceflight (REF-01). */
 export type HazardTag =
-  | 'space-radiation'
-  | 'isolation-and-confinement'
-  | 'distance-from-earth'
-  | 'altered-gravity'
-  | 'hostile-closed-environment';
+  | "space-radiation"
+  | "isolation-and-confinement"
+  | "distance-from-earth"
+  | "altered-gravity"
+  | "hostile-closed-environment";
 
 /** An array that always has at least one item. */
 export type NonEmptyArray<T> = [T, ...T[]];
@@ -72,14 +72,14 @@ export type NonEmptyArray<T> = [T, ...T[]];
  * The screen shows "No sourced guidance available" for the second case.
  */
 export type Sourced<T> =
-  | { status: 'sourced'; content: T; sourceIds: NonEmptyArray<SourceId> }
-  | { status: 'no-sourced-guidance' };
+  | { status: "sourced"; content: T; sourceIds: NonEmptyArray<SourceId> }
+  | { status: "no-sourced-guidance" };
 
 /** Sourced plain-language text. */
 export type GuidanceText = Sourced<string>;
 
 /** Where a record came from. */
-export type RecordOrigin = 'seeded' | 'entered';
+export type RecordOrigin = "seeded" | "entered";
 
 /* ========================================================================== */
 /* 1. Fixed definitions (written by Person A)                                 */
@@ -94,7 +94,7 @@ export interface SourceReference {
   /** What this source is used to support. */
   supports: string;
   /** 'verified' only after the FULL document was read. A search snippet is not enough. */
-  verification: 'verified' | 'not-yet-verified';
+  verification: "verified" | "not-yet-verified";
 }
 
 /** Definition of one measure inside an indicator. */
@@ -127,8 +127,20 @@ export interface ReferenceRange {
  * Pending. Empty unless it is sourced or explicitly labelled a simulated protocol.
  */
 export type MissionLimit =
-  | { basis: 'sourced'; measure: MeasureKey; low: number | null; high: number | null; sourceIds: NonEmptyArray<SourceId> }
-  | { basis: 'simulated-protocol'; measure: MeasureKey; low: number | null; high: number | null; label: string };
+  | {
+      basis: "sourced";
+      measure: MeasureKey;
+      low: number | null;
+      high: number | null;
+      sourceIds: NonEmptyArray<SourceId>;
+    }
+  | {
+      basis: "simulated-protocol";
+      measure: MeasureKey;
+      low: number | null;
+      high: number | null;
+      label: string;
+    };
 
 /**
  * Definition of one measurement.
@@ -191,7 +203,7 @@ export interface SingleValueReading extends ReadingBase {
 
 /** A blood pressure reading: BOTH numbers are required. */
 export interface BloodPressureReading extends ReadingBase {
-  indicatorId: 'blood-pressure';
+  indicatorId: "blood-pressure";
   systolic: number;
   diastolic: number;
 }
@@ -212,12 +224,12 @@ export interface SymptomReport {
 }
 
 /** Records written by Person A in the seed files. */
-export type SeededReading = HealthReading & { origin: 'seeded' };
-export type SeededSymptom = SymptomReport & { origin: 'seeded' };
+export type SeededReading = HealthReading & { origin: "seeded" };
+export type SeededSymptom = SymptomReport & { origin: "seeded" };
 
 /** Records typed in by the user (the only kind saved in localStorage). */
-export type EnteredReading = HealthReading & { origin: 'entered' };
-export type EnteredSymptom = SymptomReport & { origin: 'entered' };
+export type EnteredReading = HealthReading & { origin: "entered" };
+export type EnteredSymptom = SymptomReport & { origin: "entered" };
 
 /** Seed file for one astronaut. Only seeded records are accepted. */
 export interface AstronautSeed {
@@ -229,7 +241,7 @@ export interface AstronautSeed {
 /** One value typed into the check-in form. Same shape rule as a reading. */
 export type CheckInValue =
   | { indicatorId: SingleValueIndicatorId; value: number }
-  | { indicatorId: 'blood-pressure'; systolic: number; diastolic: number };
+  | { indicatorId: "blood-pressure"; systolic: number; diastolic: number };
 
 /**
  * What the check-in form submits.
@@ -245,7 +257,7 @@ export interface CheckInSubmission {
 
 export interface CheckInError {
   /** Which part of the form the message belongs to. */
-  field: IndicatorId | 'symptoms' | 'form';
+  field: IndicatorId | "symptoms" | "form";
   /** For blood pressure: which of the two numbers. */
   measure?: MeasureKey;
   message: string;
@@ -271,11 +283,11 @@ interface BaselineBase {
 
 /** Fewer than 7 days of readings. No centre, band or comparison exists yet. */
 export interface BuildingBaseline extends BaselineBase {
-  state: 'building';
+  state: "building";
 }
 
 export interface ReadyBaseline extends BaselineBase {
-  state: 'ready';
+  state: "ready";
   /** The median of the baseline readings. */
   centre: number;
   /** Median absolute deviation, already raised to the spread floor if it was smaller. */
@@ -291,15 +303,18 @@ export type PersonalBaseline = BuildingBaseline | ReadyBaseline;
 
 /** Where the latest reading sits compared with the astronaut's own baseline. Not a trend. */
 export type BaselinePosition =
-  | 'above-baseline'
-  | 'within-baseline'
-  | 'below-baseline'
-  | 'not-enough-data';
+  | "above-baseline"
+  | "within-baseline"
+  | "below-baseline"
+  | "not-enough-data";
 
 /** Compared with a general reference range. 'not-assessed' when no verified range exists. */
-export type ReferenceStatus = 'within-reference' | 'outside-reference' | 'not-assessed';
+export type ReferenceStatus =
+  | "within-reference"
+  | "outside-reference"
+  | "not-assessed";
 
-export type DeviationDirection = 'above' | 'below';
+export type DeviationDirection = "above" | "below";
 
 /** A series of consecutive days deviating in the same direction. */
 export interface DeviationRun {
@@ -356,18 +371,18 @@ export interface HealthStatus {
  * 'contact-flight-surgeon' is deliberately NOT here: it has no automatic trigger until D-10 is decided.
  * A HealthAlert can therefore never carry that level.
  */
-export type AlertLevel = 'info' | 'watch' | 'action';
+export type AlertLevel = "info" | "watch" | "action";
 
 /** Levels shown in the legend. */
-export type LegendAlertLevel = AlertLevel | 'contact-flight-surgeon';
+export type LegendAlertLevel = AlertLevel | "contact-flight-surgeon";
 
 /** Which prototype rule produced an alert. */
 export type AlertRuleId =
-  | 'deviation-not-yet-sustained'
-  | 'symptom-logged'
-  | 'sustained-deviation'
-  | 'sustained-with-second-indicator'
-  | 'sustained-with-symptom';
+  | "deviation-not-yet-sustained"
+  | "symptom-logged"
+  | "sustained-deviation"
+  | "sustained-with-second-indicator"
+  | "sustained-with-symptom";
 
 /**
  * An alert. Recalculated every time. Never saved.
@@ -398,8 +413,18 @@ export interface HealthAlert {
 
 /** One line of the alert legend. The Contact Flight Surgeon line can never claim an automatic trigger. */
 export type AlertLegendEntry =
-  | { level: AlertLevel; label: string; description: string; hasAutomaticTrigger: true }
-  | { level: 'contact-flight-surgeon'; label: string; description: string; hasAutomaticTrigger: false };
+  | {
+      level: AlertLevel;
+      label: string;
+      description: string;
+      hasAutomaticTrigger: true;
+    }
+  | {
+      level: "contact-flight-surgeon";
+      label: string;
+      description: string;
+      hasAutomaticTrigger: false;
+    };
 
 /** One visible rule, so screens never hard-code rule wording. */
 export interface AlertRuleDescription {
@@ -416,8 +441,6 @@ export interface PrototypeRules {
   deviationK: number;
   /** 3 in the prototype. */
   sustainedDays: number;
-  /** For example "Prototype design choices, not medical thresholds". */
-  disclaimerLabel: string;
   alertRules: AlertRuleDescription[];
 }
 
@@ -490,7 +513,7 @@ export type ApplyCheckIn = (
 /** The sourced guidance table that feeds parts 3 to 5 of Why Now. May be empty. */
 export interface GuidanceEntry {
   indicatorId: IndicatorId;
-  situation: 'sustained-above' | 'sustained-below';
+  situation: "sustained-above" | "sustained-below";
   whyItMatters: GuidanceText;
   hazards: Sourced<HazardTag[]>;
   nextSteps: GuidanceText;
@@ -547,10 +570,10 @@ export interface FlightSurgeonBriefing {
 }
 
 /** Simulated link: a screen setting, not an astronaut record. */
-export type LinkState = 'up' | 'down';
+export type LinkState = "up" | "down";
 
 /** States of a briefing in the simulated outbox. None of them means real transmission. */
-export type OutboxState = 'draft' | 'queued-simulated' | 'sent-simulated';
+export type OutboxState = "draft" | "queued-simulated" | "sent-simulated";
 
 export interface OutboxItem {
   id: string;

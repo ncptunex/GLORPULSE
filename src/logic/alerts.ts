@@ -1,4 +1,4 @@
-import { alertRuleLabels } from '../data/alertRuleLabels';
+import { alertRuleLabels } from "../data/alertRuleLabels";
 import type {
   AlertLevel,
   AlertRuleId,
@@ -9,9 +9,9 @@ import type {
   MeasureKey,
   MissionDay,
   SymptomId,
-} from '../shared/types';
-import { computeIndicatorRuns, type MeasureRunResult } from './persistence';
-import { assertSameAstronaut, seriesForMeasure } from './readingSeries';
+} from "../shared/types";
+import { computeIndicatorRuns, type MeasureRunResult } from "./persistence";
+import { assertSameAstronaut, seriesForMeasure } from "./readingSeries";
 
 /**
  * Alert generation (requirements section 8.5, decisions A-06 to A-08 in docs/person-a-logic-decisions.md).
@@ -32,7 +32,12 @@ import { assertSameAstronaut, seriesForMeasure } from './readingSeries';
 
 type AlertInput = Pick<
   HealthLogicInput,
-  'profile' | 'indicators' | 'readings' | 'symptoms' | 'symptomDefinitions' | 'rules'
+  | "profile"
+  | "indicators"
+  | "readings"
+  | "symptoms"
+  | "symptomDefinitions"
+  | "rules"
 >;
 
 /** One logged symptom on one day (a symptom repeated on the same day counts once). */
@@ -51,7 +56,11 @@ interface IndicatorState {
   deviating: MeasureRunResult[];
 }
 
-const LEVEL_ORDER: Record<AlertLevel, number> = { action: 0, watch: 1, info: 2 };
+const LEVEL_ORDER: Record<AlertLevel, number> = {
+  action: 0,
+  watch: 1,
+  info: 2,
+};
 
 const eventKey = (e: SymptomEvent) => `${e.missionDay}:${e.symptomId}`;
 
@@ -62,7 +71,7 @@ function inRunRange(day: MissionDay, result: MeasureRunResult): boolean {
 }
 
 function pluralDays(n: number): string {
-  return n === 1 ? '1 day' : `${n} days`;
+  return n === 1 ? "1 day" : `${n} days`;
 }
 
 /** "Sleep", or "Blood pressure (systolic)" for a two-number indicator. */
@@ -77,7 +86,7 @@ function lowerFirst(text: string): string {
 }
 
 function withUnit(value: number, unit: string): string {
-  return unit === 'score' ? String(value) : `${value} ${unit}`;
+  return unit === "score" ? String(value) : `${value} ${unit}`;
 }
 
 /** Plain sentences about one measure's run, built only from the astronaut's own numbers. */
@@ -85,11 +94,11 @@ function runReasons(
   astronautId: string,
   indicator: HealthIndicator,
   result: MeasureRunResult,
-  readings: AlertInput['readings'],
+  readings: AlertInput["readings"],
   also: boolean,
 ): string[] {
   const name = measureName(indicator, result.measure);
-  const direction = result.run.direction ?? 'above';
+  const direction = result.run.direction ?? "above";
   const length = result.run.length;
   const start = result.run.startDay;
   const reasons: string[] = [];
@@ -98,15 +107,19 @@ function runReasons(
     reasons.push(`${name} was ${direction} your baseline on day ${start}.`);
   } else {
     reasons.push(
-      `${name} has ${also ? 'also ' : ''}been ${direction} your baseline for ${pluralDays(length)} in a row, since day ${start}.`,
+      `${name} has ${also ? "also " : ""}been ${direction} your baseline for ${pluralDays(length)} in a row, since day ${start}.`,
     );
   }
 
-  if (!also && result.baseline.state === 'ready') {
-    const unit = indicator.measures.find((m) => m.key === result.measure)?.unit ?? '';
-    const latest = seriesForMeasure(readings, astronautId, indicator.id, result.measure).find(
-      (d) => d.missionDay === result.evaluatedThroughDay,
-    );
+  if (!also && result.baseline.state === "ready") {
+    const unit =
+      indicator.measures.find((m) => m.key === result.measure)?.unit ?? "";
+    const latest = seriesForMeasure(
+      readings,
+      astronautId,
+      indicator.id,
+      result.measure,
+    ).find((d) => d.missionDay === result.evaluatedThroughDay);
     if (latest) {
       reasons.push(
         `Your latest ${lowerFirst(name)} value is ${withUnit(latest.value, unit)}. ` +
@@ -118,7 +131,10 @@ function runReasons(
 }
 
 /** "Tiredness (day 27)". Throws for a symptom ID that is not in the symptom list. */
-function symptomText(event: SymptomEvent, labels: Map<SymptomId, string>): string {
+function symptomText(
+  event: SymptomEvent,
+  labels: Map<SymptomId, string>,
+): string {
   return `${labels.get(event.symptomId)} (day ${event.missionDay})`;
 }
 
@@ -146,16 +162,20 @@ function uniqueIds(events: SymptomEvent[]): SymptomId[] {
  * or if a symptom ID is not in the symptom list.
  */
 export function computeAlerts(input: AlertInput): HealthAlert[] {
-  const { profile, indicators, readings, symptoms, symptomDefinitions, rules } = input;
+  const { profile, indicators, readings, symptoms, symptomDefinitions, rules } =
+    input;
   const astronautId = profile.astronautId;
   const evaluationDay = profile.currentMissionDay;
 
   assertSameAstronaut(readings, astronautId);
   assertSameAstronaut(symptoms, astronautId);
 
-  const labels = new Map<SymptomId, string>(symptomDefinitions.map((d) => [d.id, d.label]));
+  const labels = new Map<SymptomId, string>(
+    symptomDefinitions.map((d) => [d.id, d.label]),
+  );
   for (const s of symptoms) {
-    if (!labels.has(s.symptomId)) throw new Error(`Unknown symptom ID: ${s.symptomId}`);
+    if (!labels.has(s.symptomId))
+      throw new Error(`Unknown symptom ID: ${s.symptomId}`);
   }
 
   // Symptoms up to the current day, one per symptom and day, oldest first.
@@ -168,20 +188,32 @@ export function computeAlerts(input: AlertInput): HealthAlert[] {
     seen.add(eventKey(event));
     events.push(event);
   }
-  events.sort((a, b) => a.missionDay - b.missionDay || a.symptomId.localeCompare(b.symptomId));
+  events.sort(
+    (a, b) =>
+      a.missionDay - b.missionDay || a.symptomId.localeCompare(b.symptomId),
+  );
 
   // Runs of every tracked indicator.
-  const states: IndicatorState[] = profile.trackedIndicators.map((id: IndicatorId) => {
-    const indicator = indicators.find((i) => i.id === id);
-    if (!indicator) throw new Error(`No definition for tracked indicator "${id}".`);
-    const results = computeIndicatorRuns(astronautId, indicator, readings, rules, evaluationDay);
-    return {
-      indicator,
-      results,
-      sustained: results.filter((r) => r.run.isSustained),
-      deviating: results.filter((r) => r.run.length > 0),
-    };
-  });
+  const states: IndicatorState[] = profile.trackedIndicators.map(
+    (id: IndicatorId) => {
+      const indicator = indicators.find((i) => i.id === id);
+      if (!indicator)
+        throw new Error(`No definition for tracked indicator "${id}".`);
+      const results = computeIndicatorRuns(
+        astronautId,
+        indicator,
+        readings,
+        rules,
+        evaluationDay,
+      );
+      return {
+        indicator,
+        results,
+        sustained: results.filter((r) => r.run.isSustained),
+        deviating: results.filter((r) => r.run.length > 0),
+      };
+    },
+  );
   const sustainedStates = states.filter((s) => s.sustained.length > 0);
 
   const alerts: HealthAlert[] = [];
@@ -212,10 +244,14 @@ export function computeAlerts(input: AlertInput): HealthAlert[] {
   for (const state of states) {
     if (state.sustained.length > 0) {
       const others = sustainedStates.filter((o) => o !== state);
-      const contributors = events.filter((e) => state.sustained.some((r) => inRunRange(e.missionDay, r)));
+      const contributors = events.filter((e) =>
+        state.sustained.some((r) => inRunRange(e.missionDay, r)),
+      );
       for (const e of contributors) contributingSymptoms.add(eventKey(e));
 
-      const reasons = state.sustained.flatMap((r) => runReasons(astronautId, state.indicator, r, readings, false));
+      const reasons = state.sustained.flatMap((r) =>
+        runReasons(astronautId, state.indicator, r, readings, false),
+      );
       if (state.sustained.some((r) => r.todayPending)) {
         reasons.push(
           `Today's ${lowerFirst(state.indicator.displayName)} check-in is not recorded yet, ` +
@@ -225,37 +261,88 @@ export function computeAlerts(input: AlertInput): HealthAlert[] {
 
       if (others.length > 0 || contributors.length > 0) {
         for (const other of others) {
-          for (const r of other.sustained) reasons.push(...runReasons(astronautId, other.indicator, r, readings, true).slice(0, 1));
+          for (const r of other.sustained)
+            reasons.push(
+              ...runReasons(
+                astronautId,
+                other.indicator,
+                r,
+                readings,
+                true,
+              ).slice(0, 1),
+            );
         }
-        for (const e of contributors) reasons.push(`Symptom logged during this run: ${symptomText(e, labels)}.`);
-        const ruleId: AlertRuleId = others.length > 0 ? 'sustained-with-second-indicator' : 'sustained-with-symptom';
-        alerts.push(make(state, 'action', ruleId, state.sustained, reasons, others.map((o) => o.indicator.id), contributors));
+        for (const e of contributors)
+          reasons.push(
+            `Symptom logged during this run: ${symptomText(e, labels)}.`,
+          );
+        const ruleId: AlertRuleId =
+          others.length > 0
+            ? "sustained-with-second-indicator"
+            : "sustained-with-symptom";
+        alerts.push(
+          make(
+            state,
+            "action",
+            ruleId,
+            state.sustained,
+            reasons,
+            others.map((o) => o.indicator.id),
+            contributors,
+          ),
+        );
       } else {
-        alerts.push(make(state, 'watch', 'sustained-deviation', state.sustained, reasons, [], []));
+        alerts.push(
+          make(
+            state,
+            "watch",
+            "sustained-deviation",
+            state.sustained,
+            reasons,
+            [],
+            [],
+          ),
+        );
       }
     } else if (state.deviating.length > 0) {
-      const reasons = state.deviating.flatMap((r) => runReasons(astronautId, state.indicator, r, readings, false));
+      const reasons = state.deviating.flatMap((r) =>
+        runReasons(astronautId, state.indicator, r, readings, false),
+      );
       if (state.deviating.some((r) => r.todayPending)) {
         reasons.push(
           `Today's ${lowerFirst(state.indicator.displayName)} check-in is not recorded yet, ` +
             `so this is counted through day ${state.deviating[0].evaluatedThroughDay}.`,
         );
       }
-      alerts.push(make(state, 'info', 'deviation-not-yet-sustained', state.deviating, reasons, [], []));
+      alerts.push(
+        make(
+          state,
+          "info",
+          "deviation-not-yet-sustained",
+          state.deviating,
+          reasons,
+          [],
+          [],
+        ),
+      );
     }
   }
 
   // Symptom-only Info alert: today or yesterday, and not already part of an Action alert.
-  const recent = events.filter((e) => e.missionDay >= evaluationDay - 1 && !contributingSymptoms.has(eventKey(e)));
+  const recent = events.filter(
+    (e) =>
+      e.missionDay >= evaluationDay - 1 &&
+      !contributingSymptoms.has(eventKey(e)),
+  );
   if (recent.length > 0) {
     alerts.push({
       id: `${astronautId}:symptoms:symptom-logged`,
       astronautId,
       indicatorId: null,
       measures: [],
-      level: 'info',
-      ruleId: 'symptom-logged',
-      ruleLabel: alertRuleLabels['symptom-logged'],
+      level: "info",
+      ruleId: "symptom-logged",
+      ruleLabel: alertRuleLabels["symptom-logged"],
       reasons: recent.map((e) => `Symptom logged: ${symptomText(e, labels)}.`),
       runStartDay: null,
       relatedIndicatorIds: [],

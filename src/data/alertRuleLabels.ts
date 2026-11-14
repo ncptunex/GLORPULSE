@@ -1,4 +1,4 @@
-import type { AlertRuleId } from '../shared/types';
+import type { AlertRuleId } from "../shared/types";
 
 /**
  * Short plain-language names of the alert rules, shown to the user as HealthAlert.ruleLabel.
@@ -6,9 +6,10 @@ import type { AlertRuleId } from '../shared/types';
  * The longer descriptions are in prototypeRules.ts.
  */
 export const alertRuleLabels: Record<AlertRuleId, string> = {
-  'deviation-not-yet-sustained': 'Away from your baseline, not yet sustained (prototype simulated protocol)',
-  'symptom-logged': 'Symptom logged (prototype simulated protocol)',
-  'sustained-deviation': 'Sustained change from your baseline (prototype simulated protocol)',
-  'sustained-with-second-indicator': 'Sustained change together with a second indicator (prototype simulated protocol)',
-  'sustained-with-symptom': 'Sustained change together with a logged symptom (prototype simulated protocol)',
+  "deviation-not-yet-sustained": "Away from your baseline, not yet sustained",
+  "symptom-logged": "Symptom logged",
+  "sustained-deviation": "Sustained change from your baseline",
+  "sustained-with-second-indicator":
+    "Sustained change together with a second indicator",
+  "sustained-with-symptom": "Sustained change together with a logged symptom",
 };

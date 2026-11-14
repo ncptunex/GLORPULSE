@@ -1,4 +1,9 @@
-import type { GuidanceText, HazardTag, HealthIndicator, Sourced } from '../shared/types';
+import type {
+  GuidanceText,
+  HazardTag,
+  HealthIndicator,
+  Sourced,
+} from "../shared/types";
 
 /**
  * Definitions of the six indicators.
@@ -13,27 +18,22 @@ import type { GuidanceText, HazardTag, HealthIndicator, Sourced } from '../share
  * referenceRanges and missionLimits are empty on purpose (nothing is verified).
  */
 
-const NO_GUIDANCE: GuidanceText = { status: 'no-sourced-guidance' };
-const NO_HAZARDS: Sourced<HazardTag[]> = { status: 'no-sourced-guidance' };
+const NO_GUIDANCE: GuidanceText = { status: "no-sourced-guidance" };
+const NO_HAZARDS: Sourced<HazardTag[]> = { status: "no-sourced-guidance" };
 
 export const indicators: HealthIndicator[] = [
   {
-    id: 'heart-rate',
-    displayName: 'Heart rate',
-    measures: [{ key: 'value', label: 'Heart rate', unit: 'bpm', entryMin: 20, entryMax: 250, spreadFloor: 2 }],
-    referenceRanges: [],
-    missionLimits: [],
-    hazards: NO_HAZARDS,
-    howToMeasure: NO_GUIDANCE,
-    whyItMatters: NO_GUIDANCE,
-    contextNote: null,
-  },
-  {
-    id: 'blood-pressure',
-    displayName: 'Blood pressure',
+    id: "heart-rate",
+    displayName: "Heart rate",
     measures: [
-      { key: 'systolic', label: 'Systolic', unit: 'mmHg', entryMin: 50, entryMax: 260, spreadFloor: 3 },
-      { key: 'diastolic', label: 'Diastolic', unit: 'mmHg', entryMin: 30, entryMax: 160, spreadFloor: 2 },
+      {
+        key: "value",
+        label: "Heart rate",
+        unit: "bpm",
+        entryMin: 20,
+        entryMax: 250,
+        spreadFloor: 2,
+      },
     ],
     referenceRanges: [],
     missionLimits: [],
@@ -43,9 +43,26 @@ export const indicators: HealthIndicator[] = [
     contextNote: null,
   },
   {
-    id: 'body-temperature',
-    displayName: 'Body temperature',
-    measures: [{ key: 'value', label: 'Body temperature', unit: '°C', entryMin: 30, entryMax: 43, spreadFloor: 0.2 }],
+    id: "blood-pressure",
+    displayName: "Blood pressure",
+    measures: [
+      {
+        key: "systolic",
+        label: "Systolic",
+        unit: "mmHg",
+        entryMin: 50,
+        entryMax: 260,
+        spreadFloor: 3,
+      },
+      {
+        key: "diastolic",
+        label: "Diastolic",
+        unit: "mmHg",
+        entryMin: 30,
+        entryMax: 160,
+        spreadFloor: 2,
+      },
+    ],
     referenceRanges: [],
     missionLimits: [],
     hazards: NO_HAZARDS,
@@ -54,9 +71,38 @@ export const indicators: HealthIndicator[] = [
     contextNote: null,
   },
   {
-    id: 'blood-glucose',
-    displayName: 'Blood glucose',
-    measures: [{ key: 'value', label: 'Blood glucose', unit: 'mmol/L', entryMin: 1, entryMax: 40, spreadFloor: 0.3 }],
+    id: "body-temperature",
+    displayName: "Body temperature",
+    measures: [
+      {
+        key: "value",
+        label: "Body temperature",
+        unit: "°C",
+        entryMin: 30,
+        entryMax: 43,
+        spreadFloor: 0.2,
+      },
+    ],
+    referenceRanges: [],
+    missionLimits: [],
+    hazards: NO_HAZARDS,
+    howToMeasure: NO_GUIDANCE,
+    whyItMatters: NO_GUIDANCE,
+    contextNote: null,
+  },
+  {
+    id: "blood-glucose",
+    displayName: "Blood glucose",
+    measures: [
+      {
+        key: "value",
+        label: "Blood glucose",
+        unit: "mmol/L",
+        entryMin: 1,
+        entryMax: 40,
+        spreadFloor: 0.3,
+      },
+    ],
     referenceRanges: [],
     missionLimits: [],
     hazards: NO_HAZARDS,
@@ -66,9 +112,18 @@ export const indicators: HealthIndicator[] = [
     contextNote: NO_GUIDANCE,
   },
   {
-    id: 'sleep',
-    displayName: 'Sleep',
-    measures: [{ key: 'value', label: 'Sleep per night', unit: 'hours', entryMin: 0, entryMax: 24, spreadFloor: 0.3 }],
+    id: "sleep",
+    displayName: "Sleep",
+    measures: [
+      {
+        key: "value",
+        label: "Sleep per night",
+        unit: "hours",
+        entryMin: 0,
+        entryMax: 24,
+        spreadFloor: 0.3,
+      },
+    ],
     referenceRanges: [],
     missionLimits: [],
     hazards: NO_HAZARDS,
@@ -77,10 +132,19 @@ export const indicators: HealthIndicator[] = [
     contextNote: null,
   },
   {
-    id: 'mood',
-    displayName: 'Mood',
+    id: "mood",
+    displayName: "Mood",
     // Non-diagnostic self-rating from 1 to 5 (prototype scale, not a validated questionnaire).
-    measures: [{ key: 'value', label: 'Mood self-rating (1 to 5)', unit: 'score', entryMin: 1, entryMax: 5, spreadFloor: 0.5 }],
+    measures: [
+      {
+        key: "value",
+        label: "Mood rating",
+        unit: "1-5",
+        entryMin: 1,
+        entryMax: 5,
+        spreadFloor: 0.5,
+      },
+    ],
     referenceRanges: [],
     missionLimits: [],
     hazards: NO_HAZARDS,
