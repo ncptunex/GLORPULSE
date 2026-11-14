@@ -1,0 +1,69 @@
+import type { AstronautSeed } from '../../shared/types';
+import { buildBloodPressure, buildReadings, buildSymptoms } from '../seedHelpers';
+
+/**
+ * astro-3: MISSING DAYS (simulated). Does not track blood glucose.
+ *
+ * No readings were recorded on day 3 or day 28 (shown as null below).
+ *  - Day 3 is inside the baseline period, so the baseline uses days 1, 2, 4, 5, 6, 7, 8.
+ *  - Heart rate is above the baseline band on days 24 to 27, then day 28 is missing.
+ *    The missing day ends that run. The run restarts on day 29 and has length 2 at day 30.
+ *    Expected at day 30: Info alert on heart rate only (run shorter than 3 days).
+ *  - All other indicators stay inside their baseline bands.
+ *
+ * Each list has 30 entries, one per mission day (rows are days 1-10, 11-20, 21-30).
+ */
+const ID = 'astro-3';
+
+const heartRate = [
+  75, 77, null, 76, 74, 76, 77, 75, 76, 75,
+  77, 76, 74, 75, 76, 77, 75, 76, 74, 76,
+  77, 75, 76, 84, 86, 85, 87, null, 88, 86,
+];
+
+const systolic = [
+  116, 118, null, 117, 115, 117, 116, 118, 117, 116,
+  118, 115, 117, 116, 118, 117, 115, 116, 117, 118,
+  116, 117, 115, 118, 117, 116, 118, null, 117, 116,
+];
+
+const diastolic = [
+  76, 77, null, 76, 75, 77, 76, 78, 76, 77,
+  76, 75, 77, 76, 78, 76, 77, 75, 76, 77,
+  76, 77, 75, 78, 76, 77, 76, null, 77, 76,
+];
+
+const temperature = [
+  36.5, 36.6, null, 36.5, 36.7, 36.6, 36.5, 36.6, 36.5, 36.6,
+  36.6, 36.5, 36.7, 36.6, 36.5, 36.6, 36.5, 36.7, 36.6, 36.5,
+  36.6, 36.5, 36.6, 36.7, 36.5, 36.6, 36.5, null, 36.6, 36.5,
+];
+
+const sleep = [
+  7.2, 7.0, null, 7.1, 7.3, 6.9, 7.2, 7.1, 7.0, 7.2,
+  7.1, 7.3, 7.0, 7.2, 7.1, 6.9, 7.2, 7.0, 7.1, 7.3,
+  7.0, 7.2, 7.1, 7.0, 7.2, 7.1, 6.9, null, 7.1, 7.0,
+];
+
+const mood = [
+  4, 4, null, 4, 5, 4, 3, 4, 4, 4,
+  5, 4, 4, 3, 4, 4, 4, 5, 4, 4,
+  4, 4, 3, 4, 4, 4, 5, null, 4, 4,
+];
+
+export const astro3: AstronautSeed = {
+  profile: {
+    astronautId: ID,
+    displayName: 'Riley Tan',
+    currentMissionDay: 30,
+    trackedIndicators: ['heart-rate', 'blood-pressure', 'body-temperature', 'sleep', 'mood'],
+  },
+  readings: [
+    ...buildReadings(ID, 'heart-rate', heartRate),
+    ...buildBloodPressure(ID, systolic, diastolic),
+    ...buildReadings(ID, 'body-temperature', temperature),
+    ...buildReadings(ID, 'sleep', sleep),
+    ...buildReadings(ID, 'mood', mood),
+  ],
+  symptoms: buildSymptoms(ID, []),
+};
