@@ -196,7 +196,7 @@ These sources give context only. **None of them provides a reference range, thre
 
 GLORPULSE is built by a two-person team. The work is divided by area, and the shared TypeScript types in `src/shared/types.ts` are the agreed contract between the two parts.
 
-| | Person A: Health Intelligence and Data | Person B: UI/UX and Frontend |
+| | Chan Jie Lin : Health Intelligence and Data | Her Cheng En: UI/UX and Frontend |
 |---|---|---|
 | **Responsibilities** | Source research and `references.md`, indicator definitions, personal baseline, deviation and persistence logic, alert rules, Why Now explanations, simulated astronaut data | Layout and design, astronaut selector, dashboard and indicator cards, check-in form, charts, alert and Why Now presentation, `localStorage` and reset control, accessibility |
 | **Main folders** | `src/data`, `src/logic` | `src/components`, `src/pages`, `src/state`, `src/storage`, `src/styles` |
