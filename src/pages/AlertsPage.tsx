@@ -32,23 +32,29 @@ export function AlertsPage({ data }: { data: CrewData }) {
               </header>
               <p>{alert.ruleLabel}</p>
               {rule && <p className="card-meta">{rule.description}</p>}
-              <ul>
-                {alert.reasons.map((reason, i) => (
-                  <li key={i}>{reason}</li>
-                ))}
-              </ul>
-              {alert.relatedIndicatorIds.length > 0 && (
-                <p className="card-meta">
-                  Also:{" "}
-                  {alert.relatedIndicatorIds
-                    .map((id) => indicatorName(indicators, id))
-                    .join(", ")}
-                </p>
-              )}
-              {alert.symptomIds.length > 0 && (
-                <p className="card-meta">
-                  Symptoms: {alert.symptomIds.map(symptomLabel).join(", ")}
-                </p>
+              {explanation ? (
+                <ExplanationCard explanation={explanation} sources={sources} />
+              ) : (
+                <>
+                  <ul>
+                    {alert.reasons.map((reason, i) => (
+                      <li key={i}>{reason}</li>
+                    ))}
+                  </ul>
+                  {alert.relatedIndicatorIds.length > 0 && (
+                    <p className="card-meta">
+                      Also:{" "}
+                      {alert.relatedIndicatorIds
+                        .map((id) => indicatorName(indicators, id))
+                        .join(", ")}
+                    </p>
+                  )}
+                  {alert.symptomIds.length > 0 && (
+                    <p className="card-meta">
+                      Symptoms: {alert.symptomIds.map(symptomLabel).join(", ")}
+                    </p>
+                  )}
+                </>
               )}
             </article>
           );

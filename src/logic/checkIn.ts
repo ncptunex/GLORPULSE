@@ -137,13 +137,13 @@ export const validateCheckIn: ValidateCheckIn = (
       ) {
         errors.push({
           field: indicatorId,
-          message: `${name}: enter a whole number from ${measure.entryMin} to ${measure.entryMax}.`,
+          message: `${name}: enter a whole number from ${measure.entryMin} to ${measure.entryMax}. This is an entry limit, not a clinical threshold.`,
         });
       } else if (raw < measure.entryMin || raw > measure.entryMax) {
         errors.push({
           field: indicatorId,
           ...where,
-          message: `${name}: enter a value from ${measure.entryMin} to ${measure.entryMax}${unit}.`,
+          message: `${name}: enter a value from ${measure.entryMin} to ${measure.entryMax}${unit}. This is an entry limit, not a clinical threshold.`,
         });
       }
     }

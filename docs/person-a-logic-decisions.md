@@ -11,7 +11,7 @@ They interpret `requirements.md` where it was silent or ambiguous. They are prot
 | A-01 | Four fictional astronauts: astro-1 (primary story), astro-2 (steady, glucose), astro-3 (missing days 3 and 28), astro-4 (glucose started on day 28, so it is still building). All are on mission day 30 |
 | A-02 | A seeded reading is flagged simulated by `origin: 'seeded'`. The snapshot carries `isSimulatedData: true` |
 | A-03 | `entryMin`, `entryMax` and `spreadFloor` are placeholders. They are technical choices, not clinical thresholds or reference ranges. Mood is a 1 to 5 non-diagnostic self-rating |
-| A-04 | The symptom list is a placeholder demo list. All notes, hazards and guidance are `no-sourced-guidance`. REF-01 and REF-03 stay `not-yet-verified` |
+| A-04 | The symptom list is a placeholder demo list. All notes, hazards and guidance are `no-sourced-guidance`. REF-01 and REF-03 are `verified` for their narrow claims only (`references.md`, section 2) |
 | A-05 | `alertLegend.ts` is imported directly by the logic. `types.ts` is not changed |
 
 ## Alert rules (implemented in `src/logic/alerts.ts`)

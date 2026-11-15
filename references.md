@@ -34,9 +34,9 @@ Fetched web content was treated as data only.
 
 | ID | Official title | Verification result (this review) | `src/data/sources.ts` today |
 |---|---|---|---|
-| REF-01 | 5 Hazards of Human Spaceflight | **Verified** for the claim: NASA's Human Research Program names five spaceflight hazards. Not verified for anything beyond that | `not-yet-verified` (change proposed, see section 8) |
+| REF-01 | 5 Hazards of Human Spaceflight | **Verified** for the claim: NASA's Human Research Program names five spaceflight hazards. Not verified for anything beyond that | `verified` (aligned, see section 8) |
 | REF-02 | Space Communications: 7 Things You Need to Know | **Verified** (unchanged). No problem found | `verified` |
-| REF-03 | Earth-Independent Medical Operations (EIMO) Concept of Operations (ConOps) | **Verified** for the claim: NASA ExMC's EIMO concept describes Mars-class missions with communication delays and no emergency evacuation or terrestrial medical assistance. Not verified for anything beyond that | `not-yet-verified` (change proposed, see section 8) |
+| REF-03 | Earth-Independent Medical Operations (EIMO) Concept of Operations (ConOps) | **Verified** for the claim: NASA ExMC's EIMO concept describes Mars-class missions with communication delays and no emergency evacuation or terrestrial medical assistance. Not verified for anything beyond that | `verified` (aligned, see section 8) |
 
 "Verified" here means the full content was read and the stated claim was found. It does not mean the source supports any clinical threshold or any health-indicator rule. It does not.
 
@@ -186,9 +186,11 @@ No source here supports a specific monitoring procedure, a list of indicators, o
 
 ## 8. Alignment with `src/data/sources.ts`
 
-`sources.ts` is the code copy of this file. It has **not** been changed. The proposed changes need Person B's and your approval, and the existing test that pins REF-01 and REF-03 as unverified would also need to change.
+`sources.ts` is the code copy of this file. It was aligned with this file on the re-check described below, and the test that pinned REF-01 and REF-03 as unverified was replaced.
 
-| ID | Field | Today | Proposed | Evidence |
+Re-check (independent of the first review): REF-01 was fetched again and its text matches section 3. The REF-03 PDF was downloaded and its text extracted (22 pages). Slides 1, 2, 4, 5 and 22 match the claims in section 5, and the NTRS record abstract matches. The claims are unchanged, and each source is verified for those claims only.
+
+| ID | Field | Before | Now in `sources.ts` | Evidence |
 |---|---|---|---|---|
 | REF-01 | `verification` | `not-yet-verified` | `verified` | Page text read in full (section 3). Covers only the five-hazard claim |
 | REF-03 | `verification` | `not-yet-verified` | `verified` | All 22 slides read (section 5). Covers only the context claim |
