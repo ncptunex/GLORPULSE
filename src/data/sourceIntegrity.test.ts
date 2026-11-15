@@ -22,6 +22,7 @@ import { prototypeRules } from './prototypeRules';
 import { seedCrew } from './seedCrew';
 import { sources } from './sources';
 import { symptomDefinitions } from './symptoms';
+import { DISCLAIMER } from '../ui/labels';
 
 /**
  * Source integrity (FR-SRC-02, FR-SRC-03, DR-02, AT-SRC-02, AT-SRC-05, AT-SRC-06).
@@ -241,8 +242,9 @@ describe('sourced fields: shape, citations and hazards', () => {
     });
 
     it('citations', () => {
+      const unverifiedRef01: SourceReference[] = [{ ...sources[0], id: 'REF-01', verification: 'not-yet-verified' }];
       expect(citationProblems(['REF-02'], sources)).toEqual([]);
-      expect(citationProblems(['REF-01'], sources)).toEqual(['cites REF-01, which is not verified.']);
+      expect(citationProblems(['REF-01'], unverifiedRef01)).toEqual(['cites REF-01, which is not verified.']);
       expect(citationProblems(['REF-99'], sources)).toEqual(['cites unknown source REF-99.']);
     });
 
@@ -257,7 +259,8 @@ describe('sourced fields: shape, citations and hazards', () => {
       );
       const field = sourcedFieldsOf(withGuidance).find((f) => f.where === 'sleep.whyItMatters')!;
       expect(sourcedShapeProblems(field.value, field.kind)).toEqual([]);
-      expect(citationProblems(citedIds(field.value), sources)).toEqual(['cites REF-01, which is not verified.']);
+      const unverifiedRef01: SourceReference[] = [{ ...sources[0], id: 'REF-01', verification: 'not-yet-verified' }];
+      expect(citationProblems(citedIds(field.value), unverifiedRef01)).toEqual(['cites REF-01, which is not verified.']);
     });
   });
 });
@@ -506,7 +509,7 @@ function staticText(): { where: string; text: string }[] {
     add(`legend ${e.level}.description`, e.description);
   }
   for (const r of prototypeRules.alertRules) add(`rule ${r.ruleId}.description`, r.description);
-  add('prototypeRules.disclaimerLabel', prototypeRules.disclaimerLabel);
+  add('ui.labels.DISCLAIMER', DISCLAIMER);
   for (const [id, label] of Object.entries(alertRuleLabels)) add(`alertRuleLabels.${id}`, label);
   return out;
 }
@@ -645,7 +648,7 @@ describe('disease-name scan: scanner self-tests', () => {
   });
 
   it('does not flag "not a diagnosis", "does not diagnose" or the disclaimer text', () => {
-    for (const text of ['This is not a diagnosis.', 'It does not diagnose.', 'Decision support, not diagnosis.', prototypeRules.disclaimerLabel]) {
+    for (const text of ['This is not a diagnosis.', 'It does not diagnose.', 'Decision support, not diagnosis.', DISCLAIMER]) {
       expect(findDiseaseWording(text), text).toEqual([]);
     }
   });

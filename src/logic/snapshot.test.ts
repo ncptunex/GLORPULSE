@@ -90,7 +90,7 @@ describe('computeSnapshot: seeded astronauts', () => {
         expect(snap.astronautId).toBe(id);
         expect(snap.evaluatedOnDay).toBe(seed.profile.currentMissionDay);
         expect(snap.isSimulatedData).toBe(true);
-        expect(snap.explanations).toEqual([]);
+        expect(snap.explanations.map((e) => e.alertId)).toEqual(snap.alerts.map((a) => a.id));
         expect(snap.alertLegend).toEqual(alertLegend);
         expect(snap.rules).toBe(prototypeRules);
       });

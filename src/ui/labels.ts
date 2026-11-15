@@ -11,7 +11,7 @@ import type {
 } from "../shared/types";
 
 export const DISCLAIMER =
-  "Supports decision-making and health monitoring. Not meant as a diagnosis.";
+  "Decision support only. Not a diagnosis or a medical device. It does not replace medical professionals or mission protocols.";
 
 export const positionMeta: Record<
   BaselinePosition,

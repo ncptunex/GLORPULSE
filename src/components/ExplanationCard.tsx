@@ -23,9 +23,16 @@ function Guidance({ text, sources }: { text: GuidanceText; sources: SourceRefere
 
 export function ExplanationCard({ explanation, sources }: { explanation: HealthExplanation; sources: SourceReference[] }) {
   const hazards = explanation.hazards;
+  const noGuidance =
+    explanation.whyItMatters.status !== 'sourced' &&
+    explanation.hazards.status !== 'sourced' &&
+    explanation.nextSteps.status !== 'sourced';
   return (
     <div className="why-now">
       <h4>Why now</h4>
+      <p className="card-meta">
+        This explanation uses simulated data and prototype rules. It is not medical guidance.
+      </p>
       <dl>
         <dt>1. What changed</dt>
         <dd>{explanation.whatChanged}</dd>
@@ -33,35 +40,45 @@ export function ExplanationCard({ explanation, sources }: { explanation: HealthE
         <dd>{explanation.baselineComparison}</dd>
         <dd className="card-meta">{explanation.referenceRangeNote}</dd>
         <dd className="card-meta">{explanation.missionLimitNote}</dd>
-        <dt>3. Why it matters in space</dt>
-        <dd>
-          <Guidance text={explanation.whyItMatters} sources={sources} />
-        </dd>
-        <dt>4. Spaceflight hazards</dt>
-        <dd>
-          {hazards.status === 'sourced' ? (
-            <ul className="tag-list">
-              {hazards.content.map((h) => (
-                <li key={h} className="tag">
-                  {h.replace(/-/g, ' ')}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="no-guidance">No sourced guidance available</p>
-          )}
-        </dd>
-        <dt>5. Next steps</dt>
-        <dd>
-          <Guidance text={explanation.nextSteps} sources={sources} />
-        </dd>
+        {noGuidance ? (
+          <>
+            <dt>3–5. Why it matters, hazards and next steps</dt>
+            <dd>
+              <p className="no-guidance">No sourced guidance available for this alert.</p>
+            </dd>
+          </>
+        ) : (
+          <>
+            <dt>3. Why it matters in space</dt>
+            <dd>
+              <Guidance text={explanation.whyItMatters} sources={sources} />
+            </dd>
+            <dt>4. Spaceflight hazards</dt>
+            <dd>
+              {hazards.status === 'sourced' ? (
+                <ul className="tag-list">
+                  {hazards.content.map((h) => (
+                    <li key={h} className="tag">
+                      {h.replace(/-/g, ' ')}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="no-guidance">No sourced guidance available</p>
+              )}
+            </dd>
+            <dt>5. Next steps</dt>
+            <dd>
+              <Guidance text={explanation.nextSteps} sources={sources} />
+            </dd>
+          </>
+        )}
         <dt>6. When to contact the flight surgeon</dt>
         <dd>
           <p>{explanation.whenToContactFlightSurgeon.appliedRule}</p>
-          {!explanation.whenToContactFlightSurgeon.automaticContactRuleDefined && (
-            <p className="card-meta">This prototype has no automatic rule for contacting the flight surgeon.</p>
+          {explanation.whenToContactFlightSurgeon.guidance.status === 'sourced' && (
+            <Guidance text={explanation.whenToContactFlightSurgeon.guidance} sources={sources} />
           )}
-          <Guidance text={explanation.whenToContactFlightSurgeon.guidance} sources={sources} />
         </dd>
       </dl>
       <p className="card-meta">{explanation.disclaimer}</p>

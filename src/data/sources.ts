@@ -1,13 +1,12 @@
 import type { SourceReference } from '../shared/types';
 
 /**
- * Sources used by the prototype (code copy of references.md, which is still to be created).
+ * Sources used by the prototype (code copy of references.md).
  *
  * 'verified' means the FULL document was read. A search snippet is not enough (FR-SRC-04).
- * REF-02 is marked verified because product.md records "Page read in full".
- * REF-01 and REF-03 were only seen in search results, so they stay 'not-yet-verified'.
- *
- * Because of that, no guidance in this prototype is linked to REF-01 or REF-03 yet.
+ * Each source is verified only for the narrow claim in `supports` (see references.md, sections 2 to 7).
+ * REF-01, REF-02 and REF-03 were read in full. None supports a reference range, threshold or guidance text,
+ * so no guidance in this prototype is linked to any of them yet.
  */
 export const sources: SourceReference[] = [
   {
@@ -16,7 +15,7 @@ export const sources: SourceReference[] = [
     organisation: 'NASA Human Research Program',
     url: 'https://www.nasa.gov/hrp/hazards/',
     supports: 'The five spaceflight hazards',
-    verification: 'not-yet-verified',
+    verification: 'verified',
   },
   {
     id: 'REF-02',
@@ -28,10 +27,11 @@ export const sources: SourceReference[] = [
   },
   {
     id: 'REF-03',
-    title: 'Earth-Independent Medical Operations (EIMO) Concept of Operations',
-    organisation: 'NASA Exploration Medical Capability',
+    title: 'Earth-Independent Medical Operations (EIMO) Concept of Operations (ConOps)',
+    organisation: 'NASA Human Research Program, Exploration Medical Capability (ExMC) Element',
     url: 'https://ntrs.nasa.gov/api/citations/20240001402/downloads/2024_IWS_EIMO_ConOps_FINAL.pdf',
-    supports: 'Context: medical care during communication delays where evacuation is not available',
-    verification: 'not-yet-verified',
+    supports:
+      'Context (concept presentation): medical care during communication delays where emergency evacuation and terrestrial medical assistance are not available',
+    verification: 'verified',
   },
 ];

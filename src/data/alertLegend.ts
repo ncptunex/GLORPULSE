@@ -24,7 +24,7 @@ export const alertLegend: AlertLegendEntry[] = [
     level: "contact-flight-surgeon",
     label: "Contact Flight Surgeon",
     description:
-      "Critical health. Advised to seek medical assistance immediately.",
+      "Shown for reference only. No automatic trigger in this prototype yet: GLORPULSE never generates this level on its own.",
     hasAutomaticTrigger: false,
   },
 ];

@@ -4,7 +4,7 @@
 
 Status: DRAFT v3 for team review
 Source of truth for vision, scope and principles: `.kiro/steering/product.md`
-Related: `references.md` (to be created by Person A), `docs/competitor-research-and-differentiation.md`
+Related: `references.md`, `docs/competitor-research-and-differentiation.md`
 
 Labels:
 - **[Confirmed]**: decided by the team.
@@ -537,9 +537,9 @@ D-10 options: (1) keep no automatic rule (the current state); (2) a simulated-pr
 
 | ID | Source | Used for | Status |
 |---|---|---|---|
-| REF-01 | NASA Human Research Program, "5 Hazards of Human Spaceflight", https://www.nasa.gov/hrp/hazards/ | The five hazards | Open and confirm before treating as verified |
+| REF-01 | NASA Human Research Program, "5 Hazards of Human Spaceflight", https://www.nasa.gov/hrp/hazards/ | The five hazards | Verified for this claim only. See `references.md` |
 | REF-02 | NASA, "Space Communications: 7 Things You Need to Know", https://www.nasa.gov/missions/tech-demonstration/space-communications-7-things-you-need-to-know/ | One-way Earth-Mars delay of approximately 4 to 24 minutes | Page read in full |
-| REF-03 | NASA Exploration Medical Capability, EIMO Concept of Operations, https://ntrs.nasa.gov/api/citations/20240001402/downloads/2024_IWS_EIMO_ConOps_FINAL.pdf | Earth-Independent Medical Operations context | Open and confirm before treating as verified |
+| REF-03 | NASA Exploration Medical Capability, EIMO Concept of Operations, https://ntrs.nasa.gov/api/citations/20240001402/downloads/2024_IWS_EIMO_ConOps_FINAL.pdf | Earth-Independent Medical Operations context | Verified for this context claim only. See `references.md` |
 
 ## 17. Suggested build order and cut list
 

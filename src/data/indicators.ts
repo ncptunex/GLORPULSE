@@ -138,8 +138,8 @@ export const indicators: HealthIndicator[] = [
     measures: [
       {
         key: "value",
-        label: "Mood rating",
-        unit: "1-5",
+        label: "Mood rating (1-5)",
+        unit: "points",
         entryMin: 1,
         entryMax: 5,
         spreadFloor: 0.5,

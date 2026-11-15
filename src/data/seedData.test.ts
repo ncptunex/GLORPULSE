@@ -202,9 +202,10 @@ describe('definitions', () => {
     for (const i of indicators) expect(i.contextNote !== null).toBe(i.id === 'blood-glucose');
   });
 
-  it('keep REF-01 and REF-03 unverified', () => {
-    expect(sources.find((s) => s.id === 'REF-01')?.verification).toBe('not-yet-verified');
-    expect(sources.find((s) => s.id === 'REF-03')?.verification).toBe('not-yet-verified');
+  it('mark REF-01, REF-02 and REF-03 verified, each only for its narrow claim in references.md', () => {
+    for (const id of ['REF-01', 'REF-02', 'REF-03']) {
+      expect(sources.find((s) => s.id === id)?.verification).toBe('verified');
+    }
   });
 
   it('use the agreed prototype numbers and an alert legend with no automatic Contact Flight Surgeon trigger', () => {

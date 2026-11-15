@@ -195,13 +195,13 @@ Detailed pass/fail acceptance criteria are in `requirements.md` section 12. For 
 
 ## 16. References
 
-Source IDs are provisional. Person A will move them into `references.md`.
+Source details and verification status are kept in `references.md`. The table below is a summary only. If it disagrees with `references.md`, `references.md` wins.
 
 | ID | Source | Used for | Verification status |
 |---|---|---|---|
-| REF-01 | NASA Human Research Program, "5 Hazards of Human Spaceflight", https://www.nasa.gov/hrp/hazards/ | The five spaceflight hazards | Seen in search result text only. Open and confirm before treating as verified |
+| REF-01 | NASA Human Research Program, "5 Hazards of Human Spaceflight", https://www.nasa.gov/hrp/hazards/ | The five spaceflight hazards | Verified for this claim only (full page read). Linked hazard detail pages not read |
 | REF-02 | NASA, "Space Communications: 7 Things You Need to Know", https://www.nasa.gov/missions/tech-demonstration/space-communications-7-things-you-need-to-know/ | One-way Earth-Mars communication delay of approximately 4 to 24 minutes, depending on planetary distance | Page read in full |
-| REF-03 | NASA Exploration Medical Capability, EIMO Concept of Operations, https://ntrs.nasa.gov/api/citations/20240001402/downloads/2024_IWS_EIMO_ConOps_FINAL.pdf | Earth-Independent Medical Operations context: medical care during communication delays where evacuation and terrestrial medical assistance are not available | Seen in search result text only. Open and confirm before treating as verified |
+| REF-03 | NASA Human Research Program, Exploration Medical Capability (ExMC) Element, EIMO Concept of Operations, https://ntrs.nasa.gov/api/citations/20240001402/downloads/2024_IWS_EIMO_ConOps_FINAL.pdf | Earth-Independent Medical Operations context: medical care during communication delays where evacuation and terrestrial medical assistance are not available | Verified for this context claim only (all 22 slides read). A concept presentation, not a standard or protocol |
 | REF-04 | `docs/competitor-research-and-differentiation.md` | Competitor summary in section 12 | Based on README files and landing pages, not running applications |
 
 No health thresholds, sleep statistics or clinical guidance are cited in this document. They remain [Pending] research.
@@ -221,7 +221,7 @@ No health thresholds, sleep statistics or clinical guidance are cited in this do
 | Number of simulated astronauts | [Proposed default] 3 to 4 |
 | Baseline, deviation and persistence rules | [Proposed default] 7 days, median and spread, 3 consecutive days |
 | Status names | [Proposed default] Within reference, Outside reference, Not assessed (see `requirements.md` FR-DASH-04) |
-| Verify REF-01 and REF-03 against the full documents | [Pending] (Person A) |
+| Verify REF-01 and REF-03 against the full documents | Done for their stated claims only (see `references.md`) |
 | Briefing download or PDF | Optional, later |
 
 ## 18. Related documents
@@ -229,4 +229,4 @@ No health thresholds, sleep statistics or clinical guidance are cited in this do
 - `requirements.md`: functional and non-functional requirements, data, workflows, acceptance criteria
 - `src/shared/types.ts`: the shared TypeScript contract between Person A and Person B (change only when both agree)
 - `docs/competitor-research-and-differentiation.md`: research behind section 12
-- `references.md`: full source list for all medical statements (to be created by Person A)
+- `references.md`: full source list and verification status for all medical statements

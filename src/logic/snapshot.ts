@@ -18,6 +18,7 @@ import type {
 } from '../shared/types';
 import { computeAlerts } from './alerts';
 import { computeIndicatorPositions } from './deviation';
+import { buildExplanations } from './explanations';
 import { computeIndicatorRuns, computeMissingDays, computeReadingTiming } from './persistence';
 import { assertSameAstronaut, getMeasureValue } from './readingSeries';
 
@@ -88,8 +89,8 @@ function referenceFor(
  *  - `statuses` has one item per tracked indicator, in the profile's order. Untracked indicators have none.
  *  - `readings` and `symptoms` are copies of ALL given records, including future ones and duplicates.
  *    Future records are never used by any calculation, and they never create an alert (A-17, A-18).
- *  - `explanations` is empty (differentiating feature, not built yet). `guidance` and `sources` are only
- *    used for reference-range verification.
+ *  - `explanations` has one Why Now explanation per alert (explanations.ts). `guidance` feeds its parts
+ *    3 to 5 and may be empty. `sources` is used for reference-range verification.
  */
 export const computeSnapshot: ComputeSnapshot = (input: HealthLogicInput): HealthSnapshot => {
   const { profile, indicators, readings, symptoms, symptomDefinitions, sources, rules } = input;
@@ -136,12 +137,20 @@ export const computeSnapshot: ComputeSnapshot = (input: HealthLogicInput): Healt
 
   const alerts = computeAlerts({ profile, indicators, readings, symptoms, symptomDefinitions, rules });
 
+  const explanations = buildExplanations(alerts, {
+    indicators,
+    statuses,
+    guidance: input.guidance,
+    symptomDefinitions,
+    evaluatedOnDay: evaluationDay,
+  });
+
   return {
     astronautId,
     evaluatedOnDay: evaluationDay,
     statuses,
     alerts,
-    explanations: [],
+    explanations,
     alertLegend: alertLegend.map((entry) => ({ ...entry })),
     rules,
     readings: readings.map((r) => ({ ...r })),
